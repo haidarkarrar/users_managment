@@ -4,21 +4,14 @@ from .models import User, Company, Profile
 class UserSerializer(serializers.ModelSerializer):
     class Meta :
         model = User
-        fields = '__all__'
+        fields = ['first_name', 'last_name', 'email', 'username', 'phone_number']
 
 class CompanySerializer(serializers.ModelSerializer):
+
+    users = UserSerializer(many=True, read_only=True)    
     class Meta :
         model = Company
-        fields = '__all__'
-        depth = 1
-
-    def __init__(self, *args, **kwargs):
-        super(CompanySerializer, self).__init__(*args, **kwargs)
-        request = self.context.get('request')
-        if request and request.method=='POST':
-            self.Meta.depth = 0
-        else:
-            self.Meta.depth = 1
+        fields = ['id', 'name', 'city', 'users']
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta :

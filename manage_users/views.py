@@ -128,7 +128,7 @@ class UserViewset(GenericViewSet, RetrieveModelMixin, CreateModelMixin, ListMode
             email_body = 'Hello \n Use link below to reset your password \n' + absurl
             subject = 'Reset your password'
             send_mail(subject, email_body, EMAIL_HOST_USER, [
-                      'haidaralkarrar17@gmail.com'], fail_silently=False)
+                      user.email], fail_silently=False)
 
             return Response({'success': 'we have sent you an email'}, status=status.HTTP_200_OK)
         return Response({'failed': 'email does not match'}, status=status.HTTP_404_NOT_FOUND)

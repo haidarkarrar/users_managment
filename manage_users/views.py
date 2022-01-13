@@ -134,10 +134,10 @@ class UserViewset(GenericViewSet, RetrieveModelMixin, CreateModelMixin, ListMode
         return Response({'failed': 'email does not match'}, status=status.HTTP_404_NOT_FOUND)
 
     # @action(detail=True, methods=['get'], url_path=r'password-reset/(?P<token>\w+)', url_name='password-reset-confirm')
-    @action(detail=True, methods=['patch'], url_path='password-reset/az569s-6ad4e11c2f56aa496128bc1c923486cb', url_name='password-reset-confirm')
-    def set_new_password(self, request, pk):
+    @action(detail=True, methods=['patch', 'get'], url_path=r'password-reset/(?P<token>[-\w]+)', url_name='password-reset-confirm')
+    def set_new_password(self, request, pk, token):
         user = self.get_object()
-        if not PasswordResetTokenGenerator().check_token(user, 'az569s-6ad4e11c2f56aa496128bc1c923486cb'):
+        if not PasswordResetTokenGenerator().check_token(user, token):
             return Response({'error': 'Token is not valid'}, status=status.HTTP_401_UNAUTHORIZED)
 
         serializer = self.get_serializer(data=request.data, partial=True)

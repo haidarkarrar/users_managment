@@ -20,5 +20,6 @@ from django.urls.conf import include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('manage_users.urls')),
+    path('ex3/', include('ex3.urls')),
 
 ]
